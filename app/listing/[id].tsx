@@ -1,19 +1,27 @@
-import { useLocalSearchParams, useNavigation } from 'expo-router';
-import React, { useLayoutEffect } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Share } from 'react-native';
-import listingsData from '@/assets/data/airbnb-listings.json';
-import { Ionicons } from '@expo/vector-icons';
-import Colors from '@/constants/Colors';
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import React, { useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  Share,
+} from "react-native";
+import listingsData from "@/assets/data/airbnb-listings.json";
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
 import Animated, {
   SlideInDown,
   interpolate,
   useAnimatedRef,
   useAnimatedStyle,
   useScrollViewOffset,
-} from 'react-native-reanimated';
-import { defaultStyles } from '@/constants/Styles';
+} from "react-native-reanimated";
+import { defaultStyles } from "@/constants/Styles";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 const IMG_HEIGHT = 300;
 
 const DetailsPage = () => {
@@ -35,25 +43,30 @@ const DetailsPage = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: '',
+      headerTitle: "",
       headerTransparent: true,
 
       headerBackground: () => (
-        <Animated.View style={[headerAnimatedStyle, styles.header]}></Animated.View>
+        <Animated.View
+          style={[headerAnimatedStyle, styles.header]}
+        ></Animated.View>
       ),
       headerRight: () => (
         <View style={styles.bar}>
           <TouchableOpacity style={styles.roundButton} onPress={shareListing}>
-            <Ionicons name="share-outline" size={22} color={'#000'} />
+            <Ionicons name="share-outline" size={22} color={"#000"} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.roundButton}>
-            <Ionicons name="heart-outline" size={22} color={'#000'} />
+            <Ionicons name="heart-outline" size={22} color={"#000"} />
           </TouchableOpacity>
         </View>
       ),
       headerLeft: () => (
-        <TouchableOpacity style={styles.roundButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={24} color={'#000'} />
+        <TouchableOpacity
+          style={styles.roundButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="chevron-back" size={24} color={"#000"} />
         </TouchableOpacity>
       ),
     });
@@ -68,11 +81,15 @@ const DetailsPage = () => {
           translateY: interpolate(
             scrollOffset.value,
             [-IMG_HEIGHT, 0, IMG_HEIGHT, IMG_HEIGHT],
-            [-IMG_HEIGHT / 2, 0, IMG_HEIGHT * 0.75]
+            [-IMG_HEIGHT / 2, 0, IMG_HEIGHT * 0.75],
           ),
         },
         {
-          scale: interpolate(scrollOffset.value, [-IMG_HEIGHT, 0, IMG_HEIGHT], [2, 1, 1]),
+          scale: interpolate(
+            scrollOffset.value,
+            [-IMG_HEIGHT, 0, IMG_HEIGHT],
+            [2, 1, 1],
+          ),
         },
       ],
     };
@@ -89,7 +106,8 @@ const DetailsPage = () => {
       <Animated.ScrollView
         contentContainerStyle={{ paddingBottom: 100 }}
         ref={scrollRef}
-        scrollEventThrottle={16}>
+        scrollEventThrottle={16}
+      >
         <Animated.Image
           source={{ uri: listing.xl_picture_url }}
           style={[styles.image, imageAnimatedStyle]}
@@ -102,22 +120,28 @@ const DetailsPage = () => {
             {listing.room_type} in {listing.smart_location}
           </Text>
           <Text style={styles.rooms}>
-            {listing.guests_included} guests · {listing.bedrooms} bedrooms · {listing.beds} bed ·{' '}
-            {listing.bathrooms} bathrooms
+            {listing.guests_included} guests · {listing.bedrooms} bedrooms ·{" "}
+            {listing.beds} bed · {listing.bathrooms} bathrooms
           </Text>
-          <View style={{ flexDirection: 'row', gap: 4 }}>
+          <View style={{ flexDirection: "row", gap: 4 }}>
             <Ionicons name="star" size={16} />
             <Text style={styles.ratings}>
-              {listing.review_scores_rating / 20} · {listing.number_of_reviews} reviews
+              {listing.review_scores_rating / 20} · {listing.number_of_reviews}{" "}
+              reviews
             </Text>
           </View>
           <View style={styles.divider} />
 
           <View style={styles.hostView}>
-            <Image source={{ uri: listing.host_picture_url }} style={styles.host} />
+            <Image
+              source={{ uri: listing.host_picture_url }}
+              style={styles.host}
+            />
 
             <View>
-              <Text style={{ fontWeight: '500', fontSize: 16 }}>Hosted by {listing.host_name}</Text>
+              <Text style={{ fontWeight: "500", fontSize: 16 }}>
+                Hosted by {listing.host_name}
+              </Text>
               <Text>Host since {listing.host_since}</Text>
             </View>
           </View>
@@ -128,15 +152,25 @@ const DetailsPage = () => {
         </View>
       </Animated.ScrollView>
 
-      <Animated.View style={defaultStyles.footer} entering={SlideInDown.delay(200)}>
+      <Animated.View
+        style={defaultStyles.footer}
+        entering={SlideInDown.delay(200)}
+      >
         <View
-          style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <TouchableOpacity style={styles.footerText}>
             <Text style={styles.footerPrice}>€{listing.price}</Text>
             <Text>night</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[defaultStyles.btn, { paddingRight: 20, paddingLeft: 20 }]}>
+          <TouchableOpacity
+            style={[defaultStyles.btn, { paddingRight: 20, paddingLeft: 20 }]}
+          >
             <Text style={defaultStyles.btnText}>Reserve</Text>
           </TouchableOpacity>
         </View>
@@ -148,7 +182,7 @@ const DetailsPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   image: {
     height: IMG_HEIGHT,
@@ -156,27 +190,27 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     padding: 24,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   name: {
     fontSize: 26,
-    fontWeight: 'bold',
-    fontFamily: 'mon-sb',
+    fontWeight: "bold",
+    fontFamily: "mon-sb",
   },
   location: {
     fontSize: 18,
     marginTop: 10,
-    fontFamily: 'mon-sb',
+    fontFamily: "mon-sb",
   },
   rooms: {
     fontSize: 16,
     color: Colors.grey,
     marginVertical: 4,
-    fontFamily: 'mon',
+    fontFamily: "mon",
   },
   ratings: {
     fontSize: 16,
-    fontFamily: 'mon-sb',
+    fontFamily: "mon-sb",
   },
   divider: {
     height: StyleSheet.hairlineWidth,
@@ -190,38 +224,38 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.grey,
   },
   hostView: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
   },
   footerText: {
-    height: '100%',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
+    height: "100%",
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
     gap: 4,
   },
   footerPrice: {
     fontSize: 18,
-    fontFamily: 'mon-sb',
+    fontFamily: "mon-sb",
   },
   roundButton: {
     width: 40,
     height: 40,
     borderRadius: 50,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
     color: Colors.primary,
   },
   bar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 10,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     height: 100,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: Colors.grey,
@@ -230,7 +264,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     marginTop: 10,
-    fontFamily: 'mon',
+    fontFamily: "mon",
   },
 });
 
